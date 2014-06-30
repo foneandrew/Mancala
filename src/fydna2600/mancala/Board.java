@@ -122,7 +122,10 @@ public class Board {
 	 * @return returns the string representation of the board
 	 */
 	public String toString(){
-		String s = "<html><pre>   [p1]  [5] [4] [3] [2] [1] [0]\n";
+		String s = "<html><pre>";
+		if (p1Turn) s += "   p1's turn\n";
+		else s += "   p2's turn\n";
+		s += "   [p1]  [5] [4] [3] [2] [1] [0]\n";
 		s += "+-------+---+---+---+---+---+---+-------+\n";
 		s += "|       | " + p1.get(5).count() + " | " + p1.get(4).count() + " | " + p1.get(3).count() + " | "
 				+ p1.get(2).count() + " | " + p1.get(1).count() + " | " + p1.get(0).count() + " |       |\n";
