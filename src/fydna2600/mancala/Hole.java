@@ -3,6 +3,8 @@ package fydna2600.mancala;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+//TODO tidy up abstractions
+
 /**
  * the hole contains zero or more pebbles.
  * can be either a score hole, or just a normal one
@@ -42,7 +44,7 @@ public abstract class Hole {
 	 * @param p	The pebble to be placed
 	 * @return	returns true if the hole was empty
 	 */
-	public abstract boolean place(Pebble p);
+	public abstract boolean drop(Pebble p);
 	
 	/**
 	 * gets the hole on the board that is opposite to this one
@@ -70,7 +72,9 @@ public abstract class Hole {
 	}
 	
 	protected ArrayList<Pebble> getAll(){
-		return pebbles;
+		ArrayList<Pebble> temp = (ArrayList<Pebble>) pebbles.clone();
+		pebbles.clear();
+		return temp;
 	}
 	
 	public void setNext(Hole h){

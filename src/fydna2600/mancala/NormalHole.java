@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 public class NormalHole extends Hole {
 	private Hole opposite;
+	private ScoreHole score;
 	
 	public NormalHole(){
 		//Initialize hole and fill with 4 pebbles
@@ -13,10 +14,11 @@ public class NormalHole extends Hole {
 		pebbles.add(new Pebble());
 		pebbles.add(new Pebble());
 		pebbles.add(new Pebble());
+		score = null;
 	}
 
 	@Override
-	public boolean place(Pebble p) {
+	public boolean drop(Pebble p) {
 		pebbles.add(p);
 		return pebbles.size() == 1;
 	}
@@ -33,9 +35,15 @@ public class NormalHole extends Hole {
 		System.out.print("inside the hole to move the pebbles:\n");
 		while (!isEmpty()){
 			h = h.getNext();
+			//check if trying to drop into opponents scorehole
+			if (h instanceof ScoreHole && !h.equals(getScoreHole())){
+				System.out.print("skipping opponents hole\n");
+				continue;
+			}
 			//TODO get random pebble
 			Pebble p = pebbles.remove(0);
 			System.out.print("got a pebble\n");
+			
 			//check if moving the final piece
 			if (isEmpty()){
 				System.out.print("(final peice)\n");
@@ -48,17 +56,14 @@ public class NormalHole extends Hole {
 						//get opposites pebbles
 						ArrayList<Pebble> dump = h.getOpposite().getAll();
 						//find score hole
-						h = this;
-						while (!(h instanceof ScoreHole)){
-							h = h.getNext();
-						}
+						h = getScoreHole();
 						System.out.print("found the score hole\n");
 						//place the pebbles in the players score hole
 						for (Pebble pb : dump){
-							h.place(pb);
+							h.drop(pb);
 						}
 						dump.clear();
-						h.place(p);
+						h.drop(p);
 						return false;
 					}
 				}
@@ -67,13 +72,30 @@ public class NormalHole extends Hole {
 			//place each pebble from this hole into the holes after it
 			
 			System.out.print("have next hole\n");
-			h.place(p);
+			h.drop(p);
 		}
 		//check if get an extra move:
 		if (h instanceof ScoreHole) return true;
 		return false;
 	}
 
+	/**
+	 * returns the scoring hole for this hole if available
+	 * if not; it finds it
+	 * 
+	 * @return the ScoringHole that this hole will be using
+	 */
+	private ScoreHole getScoreHole(){
+		if (score == null){
+			Hole h = this;
+			while (!(h instanceof ScoreHole)){
+				h = h.getNext();
+			}
+			score = (ScoreHole) h;
+		}
+		 return score;
+	}
+	
 	@Override
 	public void setOpposite(Hole h) {
 		opposite = h;

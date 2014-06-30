@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ScoreHole extends Hole {
+	private int side;
 	
-	public ScoreHole(){
+	public ScoreHole(int side){
+		this.side = side;
 		pebbles = new ArrayList<Pebble>();
 	}
 
@@ -15,9 +17,13 @@ public class ScoreHole extends Hole {
 	}
 
 	@Override
-	public boolean place(Pebble p) {
+	public boolean drop(Pebble p) {
 		pebbles.add(p);
 		return false;
+	}
+	
+	public void dropAll(ArrayList<Pebble> drop){
+		pebbles.addAll(drop);
 	}
 
 	@Override
@@ -28,6 +34,13 @@ public class ScoreHole extends Hole {
 	@Override
 	public void setOpposite(Hole h) {
 		//do nothing
+	}
+	
+	public boolean equals(Object o){
+		if (o != null && o instanceof ScoreHole){
+			return ((ScoreHole) o).side == this.side;
+		}
+		return false;
 	}
 
 }
