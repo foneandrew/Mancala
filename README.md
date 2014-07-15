@@ -12,6 +12,9 @@ pieces left.
 
 At the moment it uses a pretty basic text based display of the board with rudimentary controls to play it.
 
+I have decided to postpone development on this game for a while, as one of my courses this year covers creating GUIs. 
+I will come back to this project and jazz it up a bit after I have learnt a bit more
+
 In the future I hope to add (in no particular order):
 . some proper graphics
 . proper controls and input methods
